@@ -1,0 +1,28 @@
+{
+  "name": "agenda-server",
+  "version": "1.0.0",
+  "description": "Server for the agenda project of fullstackopen course",
+  "homepage": "https://github.com/Mestpal/fullstackopen-server#readme",
+  "bugs": {
+    "url": "https://github.com/Mestpal/fullstackopen-server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mestpal/fullstackopen-server.git"
+  },
+  "license": "ISC",
+  "author": "Manuel Estévez Palencia",
+  "type": "commonjs",
+  "main": "index.js",
+ "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
