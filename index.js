@@ -29,7 +29,9 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-  response.send(`<p> Phonebook has info for ${persons.length} people </p><p> ${new Date} </p>`)
+  Person.find({}).then(people => {
+    response.send(`<p> Phonebook has info for ${people.length} people </p><p> ${new Date} </p>`)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -58,21 +60,24 @@ app.post('/api/persons', (request, response) => {
   if (!body.name || !body.number) {
     return response.status(400).json({error: 'Person needs fields name and number to be valid'})
   } else {
-    const found = persons.find( person => person.name.toLocaleLowerCase() === body.name.toLocaleLowerCase())
+    //const found = persons.find( person => person.name.toLocaleLowerCase() === body.name.toLocaleLowerCase())
 
-    if (found) {
-      response.status(400).json({ error: 'name must be unique' })
-    } else {
-      const newPerson = {
-        id: Math.floor(Math.random() * 100000),
+    // if (found) {
+    //   response.status(400).json({ error: 'name must be unique' })
+    // } else {      
+      const newPerson = new Person({
         name: body.name,
         number: body.number
-      }
+      })
   
-      persons = persons.concat(newPerson)
-  
-      response.json(newPerson)
-    }
+      newPerson.save().then(result => {
+        console.log(`added ${result.name} number ${result.number} to phonebook`)
+      })
+    // }
+
+    Person.find({}).then(people => {
+      response.json(people)
+    })
   }
 })
 
