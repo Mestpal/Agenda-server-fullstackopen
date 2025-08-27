@@ -72,12 +72,9 @@ app.post('/api/persons', (request, response) => {
   
       newPerson.save().then(result => {
         console.log(`added ${result.name} number ${result.number} to phonebook`)
+        response.json(result)
       })
     // }
-
-    Person.find({}).then(people => {
-      response.json(people)
-    })
   }
 })
 
