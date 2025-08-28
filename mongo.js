@@ -27,17 +27,17 @@ if (process.argv[3] && process.argv[4]) {
       name: process.argv[3],
       number: process.argv[4],
     })
-    
-    person.save().then(result => {
+
+    person.save().then(() => {
       console.log(`added ${person.name} number ${person.number} to phonebook`)
       mongoose.connection.close()
     })
 } else {
     /** Find person */
-    
+
     Person.find({}).then(result => {
       console.log('Phonebook: ');
-      
+
       result.forEach(person => {
         console.log(`${person.name}    ${person.number}`)
       })

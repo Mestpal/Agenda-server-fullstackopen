@@ -12,7 +12,7 @@ app.use(cors())
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server on port ${PORT}`))
 
-const logger = morgan(function (tokens, req, res) {  
+const logger = morgan(function (tokens, req, res) {
   return [
     tokens.method(req, res),
     tokens.url(req, res),
@@ -50,9 +50,9 @@ app.get('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -60,16 +60,14 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
+
   if (!body.name || !body.number) {
-    return response.status(400).json({error: 'Person needs fields name and number to be valid'})
-  } else { 
-      const {name, number} = body
-      const newPerson = new Person({name, number})
+    return response.status(400).json({ error: 'Person needs fields name and number to be valid' })
+  } else {
+      const { name, number } = body
+      const newPerson = new Person({ name, number })
       const error = newPerson.validateSync()
 
-      console.log(newPerson, error);
-      
       if (!error) {
         newPerson.save()
           .then(result => {
@@ -83,9 +81,9 @@ app.post('/api/persons', (request, response, next) => {
   }
 })
 
-app.put('/api/persons/:id', (request, response, next) => {  
-  const {name, number} = request.body
-  const person = {name, number}
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+  const person = { name, number }
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then(updatedPerson => {

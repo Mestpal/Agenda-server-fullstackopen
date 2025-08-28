@@ -19,7 +19,8 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && cd ..\\fullstackopen\\part3\\agenda && npm run build && cp -r dist ..\\..\\..\\Agenda-server-fullstackopen",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -29,6 +30,9 @@
     "morgan": "^1.10.1"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^5.2.3",
+    "eslint": "^9.34.0",
+    "globals": "^16.3.0",
     "nodemon": "^3.1.10"
   }
 }
