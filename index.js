@@ -66,13 +66,20 @@ app.post('/api/persons', (request, response, next) => {
   } else { 
       const {name, number} = body
       const newPerson = new Person({name, number})
-  
-      newPerson.save()
-        .then(result => {
-          console.log(`added ${result.name} number ${result.number} to phonebook`)
-          response.json(result)
-        })
-        .catch(error => next(error))
+      const error = newPerson.validateSync()
+
+      console.log(newPerson, error);
+      
+      if (!error) {
+        newPerson.save()
+          .then(result => {
+            console.log(`added ${result.name} number ${result.number} to phonebook`)
+            response.json(result)
+          })
+          .catch(error => next(error))
+      } else {
+        next(error)
+      }
   }
 })
 
