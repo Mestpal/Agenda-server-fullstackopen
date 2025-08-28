@@ -63,12 +63,7 @@ app.post('/api/persons', (request, response) => {
   
   if (!body.name || !body.number) {
     return response.status(400).json({error: 'Person needs fields name and number to be valid'})
-  } else {
-    //const found = persons.find( person => person.name.toLocaleLowerCase() === body.name.toLocaleLowerCase())
-
-    // if (found) {
-    //   response.status(400).json({ error: 'name must be unique' })
-    // } else {      
+  } else {  
       const newPerson = new Person({
         name: body.name,
         number: body.number
@@ -78,8 +73,22 @@ app.post('/api/persons', (request, response) => {
         console.log(`added ${result.name} number ${result.number} to phonebook`)
         response.json(result)
       })
-    // }
   }
+})
+
+app.put('/api/persons/:id', (request, response, next) => {  
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, request, response, next) => {
